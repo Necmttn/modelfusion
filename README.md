@@ -5,13 +5,14 @@
 [![NPM Version](https://img.shields.io/npm/v/modelfusion?color=33cd56&logo=npm)](https://www.npmjs.com/package/modelfusion)
 [![MIT License](https://img.shields.io/github/license/lgrammel/modelfusion)](https://opensource.org/licenses/MIT)
 [![Docs](https://img.shields.io/badge/docs-modelfusion.dev-blue)](https://modelfusion.dev)
-[![Discord](https://discordapp.com/api/guilds/1136309340740006029/widget.png?style=shield)](https://discord.gg/GqCwYZATem)
 [![Created by Lars Grammel](https://img.shields.io/badge/created%20by-@lgrammel-4BBAAB.svg)](https://twitter.com/lgrammel)
-[![Follow @modelfusionjs](https://img.shields.io/badge/follow-@modelfusionjs-4BBAAB.svg)](https://twitter.com/modelfusionjs)
 
 [Introduction](#introduction) | [Quick Install](#quick-install) | [Usage](#usage-examples) | [Documentation](#documentation) | [Examples](#more-examples) | [Contributing](#contributing) | [modelfusion.dev](https://modelfusion.dev)
 
 ## Introduction
+
+> [!IMPORTANT]
+> [ModelFusion has joined Vercel](https://vercel.com/blog/vercel-ai-sdk-3-1-modelfusion-joins-the-team) and is being integrated into the [Vercel AI SDK](https://sdk.vercel.ai/docs/introduction). We are bringing the best parts of modelfusion to the Vercel AI SDK, starting with text generation, structured object generation, and tool calls. Please check out the AI SDK for the latest developments.
 
 **ModelFusion** is an abstraction layer for integrating AI models into JavaScript and TypeScript applications, unifying the API for common operations such as **text streaming**, **object generation**, and **tool usage**. It provides features to support production environments, including observability hooks, logging, and automatic retries. You can use ModelFusion to build AI applications, chatbots, and agents.
 
@@ -21,9 +22,6 @@
 - **Observability and logging**: ModelFusion provides an observer framework and logging support.
 - **Resilience and robustness**: ModelFusion ensures seamless operation through automatic retries, throttling, and error handling mechanisms.
 - **Built for production**: ModelFusion is fully tree-shakeable, can be used in serverless environments, and only uses a minimal set of dependencies.
-
-> [!NOTE]
-> ModelFusion is getting closer to a stable v1, which is expected in Q2/2024. The main API is now mostly stable, but until version 1.0 there may be breaking changes. Feedback and suggestions are welcome.
 
 ## Quick Install
 

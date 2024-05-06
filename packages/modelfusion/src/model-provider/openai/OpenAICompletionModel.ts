@@ -1,21 +1,20 @@
-import { PromptTemplateTextStreamingModel } from "../../model-function/generate-text/PromptTemplateTextStreamingModel.js";
+import { PromptTemplateTextStreamingModel } from "../../model-function/generate-text/PromptTemplateTextStreamingModel";
 import {
   TextStreamingBaseModel,
   textGenerationModelProperties,
-} from "../../model-function/generate-text/TextGenerationModel.js";
-import { TextGenerationPromptTemplate } from "../../model-function/generate-text/TextGenerationPromptTemplate.js";
+} from "../../model-function/generate-text/TextGenerationModel";
+import { TextGenerationPromptTemplate } from "../../model-function/generate-text/TextGenerationPromptTemplate";
 import {
   chat,
   instruction,
   text,
-} from "../../model-function/generate-text/prompt-template/TextPromptTemplate.js";
-import { countTokens } from "../../model-function/tokenize-text/countTokens.js";
+} from "../../model-function/generate-text/prompt-template/TextPromptTemplate";
+import { countTokens } from "../../model-function/tokenize-text/countTokens";
 import {
   AbstractOpenAICompletionModel,
   AbstractOpenAICompletionModelSettings,
-  OpenAICompletionResponse,
-} from "./AbstractOpenAICompletionModel.js";
-import { TikTokenTokenizer } from "./TikTokenTokenizer.js";
+} from "./AbstractOpenAICompletionModel";
+import { TikTokenTokenizer } from "./TikTokenTokenizer";
 
 /**
  * @see https://platform.openai.com/docs/models/
@@ -24,8 +23,6 @@ import { TikTokenTokenizer } from "./TikTokenTokenizer.js";
 export const OPENAI_TEXT_GENERATION_MODELS = {
   "gpt-3.5-turbo-instruct": {
     contextWindowSize: 4097,
-    promptTokenCostInMillicents: 0.15,
-    completionTokenCostInMillicents: 0.2,
   },
 };
 
@@ -33,35 +30,12 @@ export function getOpenAICompletionModelInformation(
   model: OpenAICompletionModelType
 ): {
   contextWindowSize: number;
-  promptTokenCostInMillicents: number;
-  completionTokenCostInMillicents: number;
 } {
   return OPENAI_TEXT_GENERATION_MODELS[model];
 }
 
 export type OpenAICompletionModelType =
   keyof typeof OPENAI_TEXT_GENERATION_MODELS;
-
-export const isOpenAICompletionModel = (
-  model: string
-): model is OpenAICompletionModelType => model in OPENAI_TEXT_GENERATION_MODELS;
-
-export const calculateOpenAICompletionCostInMillicents = ({
-  model,
-  response,
-}: {
-  model: OpenAICompletionModelType;
-  response: OpenAICompletionResponse;
-}) => {
-  const modelInformation = getOpenAICompletionModelInformation(model);
-
-  return (
-    response.usage.prompt_tokens *
-      modelInformation.promptTokenCostInMillicents +
-    response.usage.completion_tokens *
-      modelInformation.completionTokenCostInMillicents
-  );
-};
 
 export interface OpenAICompletionModelSettings
   extends AbstractOpenAICompletionModelSettings {

@@ -1,47 +1,17 @@
-import { FunctionCallOptions } from "../../core/FunctionOptions.js";
-import { ApiConfiguration } from "../../core/api/ApiConfiguration.js";
-import { callWithRetryAndThrottle } from "../../core/api/callWithRetryAndThrottle.js";
+import { FunctionCallOptions } from "../../core/FunctionOptions";
+import { ApiConfiguration } from "../../core/api/ApiConfiguration";
+import { callWithRetryAndThrottle } from "../../core/api/callWithRetryAndThrottle";
 import {
   createAudioMpegResponseHandler,
   postJsonToApi,
-} from "../../core/api/postToApi.js";
-import { AbstractModel } from "../../model-function/AbstractModel.js";
+} from "../../core/api/postToApi";
+import { AbstractModel } from "../../model-function/AbstractModel";
 import {
   SpeechGenerationModel,
   SpeechGenerationModelSettings,
-} from "../../model-function/generate-speech/SpeechGenerationModel.js";
-import { OpenAIApiConfiguration } from "./OpenAIApiConfiguration.js";
-import { failedOpenAICallResponseHandler } from "./OpenAIError.js";
-
-/**
- * @see https://openai.com/pricing
- */
-export const OPENAI_SPEECH_MODELS = {
-  "tts-1": {
-    costInMillicentsPerCharacter: 1.5, // = 1500 / 1000,
-  },
-  "tts-1-hd": {
-    costInMillicentsPerCharacter: 3, // = 3000 / 1000
-  },
-};
-
-export type OpenAISpeechModelType = keyof typeof OPENAI_SPEECH_MODELS;
-
-export const calculateOpenAISpeechCostInMillicents = ({
-  model,
-  input,
-}: {
-  model: OpenAISpeechModelType;
-  input: string;
-}): number | null => {
-  if (!OPENAI_SPEECH_MODELS[model]) {
-    return null;
-  }
-
-  return (
-    input.length * OPENAI_SPEECH_MODELS[model].costInMillicentsPerCharacter
-  );
-};
+} from "../../model-function/generate-speech/SpeechGenerationModel";
+import { OpenAIApiConfiguration } from "./OpenAIApiConfiguration";
+import { failedOpenAICallResponseHandler } from "./OpenAIError";
 
 export type OpenAISpeechVoice =
   | "alloy"
@@ -51,6 +21,8 @@ export type OpenAISpeechVoice =
   | "nova"
   | "shimmer";
 type OpenAISpeechModelResponseFormat = "mp3" | "opus" | "aac" | "flac";
+
+export type OpenAISpeechModelType = "tts-1" | "tts-1-hd";
 
 export interface OpenAISpeechModelSettings
   extends SpeechGenerationModelSettings {

@@ -18,13 +18,7 @@ const config = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
 
-  scripts: [
-    {
-      src: "https://plausible.io/js/script.js",
-      defer: true,
-      "data-domain": "modelfusion.dev",
-    },
-  ],
+  scripts: [],
 
   i18n: {
     defaultLocale: "en",
@@ -149,11 +143,6 @@ const config = {
             position: "right",
           },
           { to: "blog", label: "Blog", position: "right" },
-          {
-            href: "https://discord.gg/GqCwYZATem",
-            label: "Discord",
-            position: "right",
-          },
           {
             href: "https://github.com/lgrammel/modelfusion",
             label: "GitHub",

@@ -1,91 +1,25 @@
 import { z } from "zod";
-import { FunctionCallOptions } from "../../core/FunctionOptions.js";
-import { ApiConfiguration } from "../../core/api/ApiConfiguration.js";
-import { callWithRetryAndThrottle } from "../../core/api/callWithRetryAndThrottle.js";
+import { FunctionCallOptions } from "../../core/FunctionOptions";
+import { ApiConfiguration } from "../../core/api/ApiConfiguration";
+import { callWithRetryAndThrottle } from "../../core/api/callWithRetryAndThrottle";
 import {
   ResponseHandler,
   createJsonResponseHandler,
   postJsonToApi,
-} from "../../core/api/postToApi.js";
-import { zodSchema } from "../../core/schema/ZodSchema.js";
-import { AbstractModel } from "../../model-function/AbstractModel.js";
-import { PromptTemplate } from "../../model-function/PromptTemplate.js";
+} from "../../core/api/postToApi";
+import { zodSchema } from "../../core/schema/ZodSchema";
+import { AbstractModel } from "../../model-function/AbstractModel";
+import { PromptTemplate } from "../../model-function/PromptTemplate";
 import {
   ImageGenerationModel,
   ImageGenerationModelSettings,
-} from "../../model-function/generate-image/ImageGenerationModel.js";
-import { PromptTemplateImageGenerationModel } from "../../model-function/generate-image/PromptTemplateImageGenerationModel.js";
-import { OpenAIApiConfiguration } from "./OpenAIApiConfiguration.js";
-import { failedOpenAICallResponseHandler } from "./OpenAIError.js";
-
-export const OPENAI_IMAGE_MODELS = {
-  "dall-e-2": {
-    getCost(settings: OpenAIImageGenerationSettings) {
-      switch (settings.size ?? "1024x1024") {
-        case "1024x1024":
-          return 2000;
-        case "512x512":
-          return 1800;
-        case "256x256":
-          return 1600;
-        default:
-          return null;
-      }
-    },
-  },
-  "dall-e-3": {
-    getCost(settings: OpenAIImageGenerationSettings) {
-      switch (settings.quality ?? "standard") {
-        case "standard": {
-          switch (settings.size ?? "1024x1024") {
-            case "1024x1024":
-              return 4000;
-            case "1024x1792":
-            case "1792x1024":
-              return 8000;
-            default:
-              return null;
-          }
-        }
-        case "hd": {
-          switch (settings.size ?? "1024x1024") {
-            case "1024x1024":
-              return 8000;
-            case "1024x1792":
-            case "1792x1024":
-              return 12000;
-            default:
-              return null;
-          }
-        }
-      }
-    },
-  },
-};
-
-/**
- * @see https://openai.com/pricing
- */
-export const calculateOpenAIImageGenerationCostInMillicents = ({
-  model,
-  settings,
-}: {
-  model: OpenAIImageModelType;
-  settings: OpenAIImageGenerationSettings;
-}): number | null => {
-  const cost = OPENAI_IMAGE_MODELS[model]?.getCost(settings);
-
-  if (cost == null) {
-    return null;
-  }
-
-  return (settings.numberOfGenerations ?? 1) * cost;
-};
-
-export type OpenAIImageModelType = keyof typeof OPENAI_IMAGE_MODELS;
+} from "../../model-function/generate-image/ImageGenerationModel";
+import { PromptTemplateImageGenerationModel } from "../../model-function/generate-image/PromptTemplateImageGenerationModel";
+import { OpenAIApiConfiguration } from "./OpenAIApiConfiguration";
+import { failedOpenAICallResponseHandler } from "./OpenAIError";
 
 export interface OpenAIImageGenerationCallSettings {
-  model: OpenAIImageModelType;
+  model: "dall-e-2" | "dall-e-3";
   size?: "256x256" | "512x512" | "1024x1024" | "1792x1024" | "1024x1792";
   quality?: "standard" | "hd";
   style?: "vivid" | "natural";

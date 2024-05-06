@@ -1,9 +1,11 @@
 import { nanoid as createId } from "nanoid";
-import { ErrorHandler } from "../util/ErrorHandler.js";
-import { FunctionEvent } from "./FunctionEvent.js";
-import { FunctionEventSource } from "./FunctionEventSource.js";
-import { FunctionObserver } from "./FunctionObserver.js";
-import { Run } from "./Run.js";
+import { ErrorHandler } from "../util/ErrorHandler";
+import { FunctionEvent } from "./FunctionEvent";
+import { FunctionEventSource } from "./FunctionEventSource";
+import { FunctionObserver } from "./FunctionObserver";
+import { Run } from "./Run";
+
+import { ModelCallFinishedEvent } from "../model-function/ModelCallEvent";
 
 export class DefaultRun implements Run {
   readonly runId: string;
@@ -52,4 +54,16 @@ export class DefaultRun implements Run {
       this.functionEventSource.notify(event);
     },
   };
+
+  getSuccessfulModelCalls() {
+    return this.events.filter(
+      (
+        event
+      ): event is ModelCallFinishedEvent & { result: { status: "success" } } =>
+        "model" in event &&
+        "result" in event &&
+        "status" in event.result &&
+        event.result.status === "success"
+    );
+  }
 }

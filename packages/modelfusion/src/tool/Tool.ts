@@ -1,10 +1,7 @@
-import {
-  FunctionCallOptions,
-  FunctionOptions,
-} from "../core/FunctionOptions.js";
-import { JsonSchemaProducer } from "../core/schema/JsonSchemaProducer.js";
-import { Schema } from "../core/schema/Schema.js";
-import { ToolDefinition } from "./ToolDefinition.js";
+import { FunctionCallOptions, FunctionOptions } from "../core/FunctionOptions";
+import { JsonSchemaProducer } from "../core/schema/JsonSchemaProducer";
+import { Schema } from "../core/schema/Schema";
+import { ToolDefinition } from "./ToolDefinition";
 
 /**
  * A tool is a function with a name, description and defined inputs that can be used
@@ -20,9 +17,9 @@ export class Tool<NAME extends string, PARAMETERS, RESULT>
   readonly name: NAME;
 
   /**
-   * A description of what the tool does. Will be used by the language model to decide whether to use the tool.
+   * A optional description of what the tool does. Will be used by the language model to decide whether to use the tool.
    */
-  readonly description: string;
+  readonly description?: string;
 
   /**
    * The schema of the input that the tool expects. The language model will use this to generate the input.
@@ -51,7 +48,7 @@ export class Tool<NAME extends string, PARAMETERS, RESULT>
     execute,
   }: {
     name: NAME;
-    description: string;
+    description?: string;
     parameters: Schema<PARAMETERS> & JsonSchemaProducer;
     returnType?: Schema<RESULT>;
     execute(args: PARAMETERS, options?: FunctionOptions): PromiseLike<RESULT>;
